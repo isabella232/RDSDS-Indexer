@@ -1,0 +1,24 @@
+stages:
+  - extract
+  - report
+
+before_script:
+  - pip install requirements.txt
+
+extract-eva:
+  image: "python:3.5"
+  stage: extract
+  script:
+    - python scripts/extract-omicsdi-datasets.py eva
+
+extract-metabolights:
+  image: "python:3.5"
+  stage: extract
+  script:
+    - python scripts/extract-omicsdi-datasets.py metbolights
+
+report:
+  image: "python:3.5"
+  stage: report
+  script:
+    - wc -l data/*.csv
