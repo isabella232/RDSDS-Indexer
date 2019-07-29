@@ -3,7 +3,8 @@ stages:
   - report
 
 before_script:
-  - pip install requirements.txt
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
 
 extract-eva:
   image: "python:3.5"
