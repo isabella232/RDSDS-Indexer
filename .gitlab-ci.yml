@@ -6,16 +6,6 @@ before_script:
   - pip install --upgrade pip
   - pip install -r requirements.txt
 
-extract-eva:
-  image: "python:3.5"
-  stage: extract
-  script:
-    - python scripts/extract-omicsdi-datasets.py eva
-  artifacts:
-    paths:
-    - data/eva.csv
-    expire_in: 1 week
-
 extract-metabolights:
   image: "python:3.5"
   stage: extract
@@ -26,11 +16,57 @@ extract-metabolights:
     - data/metabolights.csv
     expire_in: 1 week
 
+extract-pride:
+  image: "python:3.5"
+  stage: extract
+  script:
+    - python scripts/extract-omicsdi-datasets.py pride
+  artifacts:
+    paths:
+    - data/pride.csv
+    expire_in: 1 week
+
+extract-arrayexpress:
+  image: "python:3.5"
+  stage: extract
+  script:
+    - python scripts/extract-omicsdi-datasets.py arrayexpress
+  artifacts:
+    paths:
+    - data/arrayexpress.csv
+    expire_in: 1 week
+
+extract-eva:
+  image: "python:3.5"
+  stage: extract
+  script:
+    - python scripts/extract-omicsdi-datasets.py eva
+  artifacts:
+    paths:
+    - data/eva.csv
+    expire_in: 1 week
+
+extract-expression-atlas:
+  image: "python:3.5"
+  stage: extract
+  script:
+    - python scripts/extract-omicsdi-datasets.py expression-atlas
+  artifacts:
+    paths:
+    - data/eva.csv
+    expire_in: 1 week
+
 report:
   image: "python:3.5"
   stage: report
   dependencies:
-    - extract-eva
     - extract-metabolights
+    - extract-pride
+    - extract-arrayexpress
+    - extract-eva
+    - extract-expression-atlas
   script:
-    - wc -l data/*.csv
+    - wc -l data/*.csv | tee data/report.txt
+  artifacts:
+    paths:
+    - data/report.txt
