@@ -30,6 +30,15 @@ OMICSDI = {
     'omicsdi_url': "https://www.omicsdi.org/dataset/atlas-experiments/{}",
     'omicsdi_api_url': "https://www.omicsdi.org/ws/dataset/atlas-experiments/{}.json"
   },
+  'biomodels': {
+    'query': "repository:\"BioModels\"",
+    'dataset_url': "https://www.ebi.ac.uk/biomodels/{}",
+    'omicsdi_url': "https://www.omicsdi.org/dataset/biomodels/{}",
+    'omicsdi_api_url': "https://www.omicsdi.org/ws/dataset/biomodels/{}.json"
+  },
+  'ena': {
+    'query': "repository:\"ENA\"",
+  },
 }
 
 
