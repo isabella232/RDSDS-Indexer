@@ -16,7 +16,7 @@ extract-metabolights:
   image: "python:3.5"
   stage: extract
   script:
-    - python scripts/extract-omicsdi-datasets.py metbolights
+    - python scripts/extract-omicsdi-datasets.py metabolights
 
 report:
   image: "python:3.5"
