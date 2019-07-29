@@ -2,13 +2,12 @@ stages:
   - extract
   - report
 
-before_script:
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
-
 extract-metabolights:
   image: "python:3.5"
   stage: extract
+  before_script:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
   script:
     - python scripts/extract-omicsdi-datasets.py metabolights
   artifacts:
@@ -19,6 +18,9 @@ extract-metabolights:
 extract-pride:
   image: "python:3.5"
   stage: extract
+  before_script:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
   script:
     - python scripts/extract-omicsdi-datasets.py pride
   artifacts:
@@ -29,6 +31,9 @@ extract-pride:
 extract-arrayexpress:
   image: "python:3.5"
   stage: extract
+  before_script:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
   script:
     - python scripts/extract-omicsdi-datasets.py arrayexpress
   artifacts:
@@ -39,6 +44,9 @@ extract-arrayexpress:
 extract-eva:
   image: "python:3.5"
   stage: extract
+  before_script:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
   script:
     - python scripts/extract-omicsdi-datasets.py eva
   artifacts:
@@ -49,6 +57,9 @@ extract-eva:
 extract-expression-atlas:
   image: "python:3.5"
   stage: extract
+  before_script:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
   script:
     - python scripts/extract-omicsdi-datasets.py expression-atlas
   artifacts:
@@ -57,7 +68,7 @@ extract-expression-atlas:
     expire_in: 1 week
 
 report:
-  image: "python:3.5"
+  image: "alpine"
   stage: report
   dependencies:
     - extract-metabolights
