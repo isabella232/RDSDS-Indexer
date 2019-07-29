@@ -53,7 +53,7 @@ extract-expression-atlas:
     - python scripts/extract-omicsdi-datasets.py expression-atlas
   artifacts:
     paths:
-    - data/eva.csv
+    - data/expression-atlas.csv
     expire_in: 1 week
 
 report:
@@ -69,4 +69,4 @@ report:
     - wc -l data/*.csv | tee data/report.txt
   artifacts:
     paths:
-    - data/report.txt
+    - data/
