@@ -68,6 +68,7 @@ def get_generic_datasets(dataset, search_data):
   """Generic extractor for datasets"""
   dataset_ids = [d['id'] for d in search_data['datasets']]
   for did in dataset_ids:
+    print(dataset, did)
     row = {
       'dataset': dataset,
       'id': did,

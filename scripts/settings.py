@@ -119,7 +119,7 @@ PATHS = {
   },
   'expression-atlas': {
     'file': [
-      '/ebi/ftp/pub/databases/arrayexpress/data/atlas/{}'
+      '/ebi/ftp/pub/databases/arrayexpress/data/atlas/{}',
       '/ebi/ftp/pub/databases/microarray/data/atlas/{}'
     ],
     'ftp': [
