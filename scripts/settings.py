@@ -24,6 +24,12 @@ OMICSDI = {
     'omicsdi_url': "https://www.omicsdi.org/dataset/eva/{}",
     'omicsdi_api_url': "https://www.omicsdi.org/ws/dataset/eva/{}.json"
   },
+  'expression-atlas': {
+    'query': "repository:\"ExpressionAtlas\"",
+    'dataset_url': "http://www.ebi.ac.uk/gxa/experiments/{}",
+    'omicsdi_url': "https://www.omicsdi.org/dataset/atlas-experiments/{}",
+    'omicsdi_api_url': "https://www.omicsdi.org/ws/dataset/atlas-experiments/{}.json"
+  },
 }
 
 
@@ -88,19 +94,27 @@ PATHS = {
     'identifiers.org': "http://identifiers.org/arrayexpress:{}",
     'file': [
       '/ebi/ftp/pub/databases/arrayexpress/data/experiment/{}',
-      '/ebi/ftp/pub/databases/microarray/{}'
+      '/ebi/ftp/pub/databases/microarray/data/experiment/{}'
       ],
     'https': [
       "https://www.ebi.ac.uk/arrayexpress/files/{}"
     ],
   },
   'eva': {
-    'identifiers.org': "http://identifiers.org/eva:{}",
     'file': [
-      '/ebi/ftp/pub/databases/arrayexpress/data/experiment/{}'
+      '/ebi/ftp/pub/databases/pub/databases/eva/{}'
     ],
     'ftp': [
       "ftp://ftp.ebi.ac.uk/pub/databases/eva/{}"
+    ]
+  },
+  'expression-atlas': {
+    'file': [
+      '/ebi/ftp/pub/databases/arrayexpress/data/atlas/{}'
+      '/ebi/ftp/pub/databases/microarray/data/atlas/{}'
+    ],
+    'ftp': [
+      "ftp://ftp.ebi.ac.uk/pub/databases/arrayexpress/data/atlas/{}"
     ]
   }
 }
