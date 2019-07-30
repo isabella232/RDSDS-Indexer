@@ -38,31 +38,23 @@ def get_arrayexpress_datasets(dataset, search_data):
     DATA.append(row)
 
 def get_pride_datasets(dataset, search_data):
-  """Custom extractor for Pride datasets"""
+  """Custom extractor for PRIDE datasets"""
+  # TODO: Extract external links from individual dataset json file_versions
+  import datetime
   for d in search_data['datasets']:
-    URL = OMICSDI[dataset]['omicsdi_api_url'].format(d['id'])
-    print("Requesting: %s" % URL)
-    r = request_url(URL)
-
-    if 'file_versions' in r.keys():
-      dataset_files = []
-      for file_version in r['file_versions']:
-        if file_version['type'] == 'primary':
-          for _,v in file_version['files'].items():
-            dataset_files.extend(v)
-      dataset_prefix = os.path.commonprefix(dataset_files)
-      archive_date_prefix = dataset_prefix.split("/"+d['id'])[0].split('pride/data/archive/')[-1]
-      local_path_postfix = "/".join([archive_date_prefix, r['accession']])
-
-      row = {
-        'dataset': dataset,
-        'id': r['accession'],
-        'dataset_url': OMICSDI[dataset]['dataset_url'].format(r['accession']),
-        'omicsdi_url': OMICSDI[dataset]['omicsdi_url'].format(r['accession']),
-        'omicsdi_api_url': OMICSDI[dataset]['omicsdi_api_url'].format(r['accession']),
-        'local_path': PATHS[dataset]['file'][0].format(local_path_postfix)
-      }
-      DATA.append(row)
+    did = d["id"]
+    pubDate = d["publicationDate"]
+    pubDate = datetime.datetime.strptime(pubDate, '%Y%m%d')
+    local_path_postfix = "/".join([str(pubDate.year), str(pubDate.month), did])
+    row = {
+      'dataset': dataset,
+      'id': did,
+      'dataset_url': OMICSDI[dataset]['dataset_url'].format(did),
+      'omicsdi_url': OMICSDI[dataset]['omicsdi_url'].format(did),
+      'omicsdi_api_url': OMICSDI[dataset]['omicsdi_api_url'].format(did),
+      'local_path': PATHS[dataset]['file'][0].format(local_path_postfix)
+    }
+    DATA.append(row)
 
 def get_generic_datasets(dataset, search_data):
   """Generic extractor for datasets"""
