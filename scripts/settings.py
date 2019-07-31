@@ -111,7 +111,7 @@ PATHS = {
   },
   'eva': {
     'file': [
-      '/ebi/ftp/pub/databases/pub/databases/eva/{}'
+      '/ebi/ftp/pub/databases/eva/{}'
     ],
     'ftp': [
       "ftp://ftp.ebi.ac.uk/pub/databases/eva/{}"
