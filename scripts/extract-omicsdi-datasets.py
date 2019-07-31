@@ -3,6 +3,7 @@
 import os
 import sys
 import argparse
+import datetime
 import textwrap
 import requests
 import json
@@ -11,7 +12,7 @@ import urllib
 from pprint import pprint
 from settings import OMICSDI, PATHS
 
-csv_column_names = ['dataset', 'id', 'dataset_url','omicsdi_url', 'omicsdi_api_url','local_path']
+csv_column_names = ['dataset', 'id', 'pub_date' , 'dataset_url','omicsdi_url', 'omicsdi_api_url','local_path']
 DATA = []
 
 def request_url(URL):
@@ -24,12 +25,14 @@ def request_url(URL):
 
 def get_arrayexpress_datasets(dataset, search_data):
   """Custom extractor for Arrayexpress datasets"""
-  dataset_ids = [d['id'] for d in search_data['datasets']]
-  for did in dataset_ids:
+  for d in search_data['datasets']:
+    did = d["id"]
     sub_dir = did.split('-')[1]
+    pubDate = datetime.datetime.strptime(d["publicationDate"], '%Y%m%d')
     row = {
       'dataset': dataset,
       'id': did,
+      'pub_date': datetime.datetime.strftime(pubDate, '%Y-%m-%d'),
       'dataset_url': OMICSDI[dataset]['dataset_url'].format(did),
       'omicsdi_url': OMICSDI[dataset]['omicsdi_url'].format(did),
       'omicsdi_api_url': OMICSDI[dataset]['omicsdi_api_url'].format(did),
@@ -40,15 +43,14 @@ def get_arrayexpress_datasets(dataset, search_data):
 def get_pride_datasets(dataset, search_data):
   """Custom extractor for PRIDE datasets"""
   # TODO: Extract external links from individual dataset json file_versions
-  import datetime
   for d in search_data['datasets']:
     did = d["id"]
-    pubDate = d["publicationDate"]
-    pubDate = datetime.datetime.strptime(pubDate, '%Y%m%d')
+    pubDate = datetime.datetime.strptime(d["publicationDate"], '%Y%m%d')
     local_path_postfix = "/".join([str(pubDate.year), str(pubDate.month), did])
     row = {
       'dataset': dataset,
       'id': did,
+      'pub_date': datetime.datetime.strftime(pubDate, '%Y-%m-%d'),
       'dataset_url': OMICSDI[dataset]['dataset_url'].format(did),
       'omicsdi_url': OMICSDI[dataset]['omicsdi_url'].format(did),
       'omicsdi_api_url': OMICSDI[dataset]['omicsdi_api_url'].format(did),
@@ -58,11 +60,13 @@ def get_pride_datasets(dataset, search_data):
 
 def get_generic_datasets(dataset, search_data):
   """Generic extractor for datasets"""
-  dataset_ids = [d['id'] for d in search_data['datasets']]
-  for did in dataset_ids:
+  for d in search_data['datasets']:
+    did = d["id"]
+    pubDate = datetime.datetime.strptime(d["publicationDate"], '%Y%m%d')
     row = {
       'dataset': dataset,
       'id': did,
+      'pub_date': datetime.datetime.strftime(pubDate, '%Y-%m-%d'),
       'dataset_url': OMICSDI[dataset]['dataset_url'].format(did),
       'omicsdi_url': OMICSDI[dataset]['omicsdi_url'].format(did),
       'omicsdi_api_url': OMICSDI[dataset]['omicsdi_api_url'].format(did),
