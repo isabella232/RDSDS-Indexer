@@ -10,9 +10,9 @@ import json
 import csv
 import urllib
 from pprint import pprint
-from settings import OMICSDI, PATHS
+from settings import OMICSDI, OMICSDI_HEADERS, PATHS
 
-csv_column_names = ['dataset', 'id', 'pub_date' , 'dataset_url','omicsdi_url', 'omicsdi_api_url','local_path']
+
 DATA = []
 
 def request_url(URL):
@@ -96,7 +96,7 @@ def export_csv(dataset, output):
   """Export dataset extract as CSV"""
   filename = '%s/%s.csv' % (output, dataset)
   with open(filename, 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=csv_column_names)
+    writer = csv.DictWriter(csvfile, fieldnames=OMICSDI_HEADERS)
     writer.writeheader()
     writer.writerows(DATA)
 
@@ -105,7 +105,7 @@ def main():
     Scrape OmicsDI for dataset paths
     """
   parser = argparse.ArgumentParser(
-        description=textwrap.dedent(description)
+    description=textwrap.dedent(description)
   )
   parser.add_argument('dataset', help='Dataset Repository')
   parser.add_argument('-o', '--output', default='data', help='Dataset Repository')
