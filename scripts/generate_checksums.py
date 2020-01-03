@@ -23,7 +23,7 @@ def write_csv(filename, DATA, header=None):
     writer.writeheader()
     writer.writerows(DATA)
 
-def generate_checksums(dataset, bundle, data):
+def generate_checksums_each(dataset, bundle, data):
   checksums = []
   
   for hash in HASH_TYPES:
@@ -36,7 +36,7 @@ def generate_checksums(dataset, bundle, data):
       
   return checksums
   
-def generate_checksums(dataset, bundle, filter, data):
+def generate_checksums_all(dataset, bundle, filter, data):
   file_filter = filter.format(bundle + '/{}')
   bundle_filter = filter
   bundle_checksums = []
@@ -44,11 +44,11 @@ def generate_checksums(dataset, bundle, filter, data):
     print(d['name'])
     if d['type'] == 'f':
       d['name'] = parse.parse(file_filter, d['name'])[0]
-      checksums = generate_checksums(dataset, bundle, d)
+      checksums = generate_checksums_each(dataset, bundle, d)
       bundle_checksums.extend(checksums)
     else:
       d['name'] = parse.parse(bundle_filter, d['name'])[0]
-      checksums = generate_checksums(dataset, bundle, d)
+      checksums = generate_checksums_each(dataset, bundle, d)
       bundle_checksums.extend(checksums)
   return bundle_checksums
 

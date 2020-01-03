@@ -23,7 +23,7 @@ def write_csv(filename, DATA, header=None):
     writer.writeheader()
     writer.writerows(DATA)
 
-def generate_objects(dataset, bundle, data):
+def generate_objects_each(dataset, bundle, data):
   object_values = []
   for d in data:
     print("Inserting {}..., {}...".format(d['id'][0:7], d['name'][0:10]))
@@ -38,7 +38,7 @@ def generate_objects(dataset, bundle, data):
       
   return object_values
   
-def generate_objects(dataset, bundle, filter, data):
+def generate_objects_all(dataset, bundle, filter, data):
   file_filter = filter.format(bundle + '/{}')
   bundle_filter = filter
   bundle_objects = []
@@ -46,7 +46,7 @@ def generate_objects(dataset, bundle, filter, data):
     print(d['name'])
     if d['type'] != 'f':
       d['name'] = parse.parse(bundle_filter, d['name'])[0]
-      objects = generate_objects(dataset, bundle, d)
+      objects = generate_objects_each(dataset, bundle, d)
       bundle_objects.extend(objects)
   return bundle_objects
 

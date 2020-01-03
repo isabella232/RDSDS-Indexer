@@ -23,7 +23,7 @@ def write_csv(filename, DATA, header=None):
     writer.writeheader()
     writer.writerows(DATA)
 
-def generate_contents(dataset, bundle, data):
+def generate_contents_each(dataset, bundle, data):
   contents_values = []
   
   if data['contents']:
@@ -40,7 +40,7 @@ def generate_contents(dataset, bundle, data):
       
   return contents
   
-def generate_contents(dataset, bundle, filter, data):
+def generate_contents_all(dataset, bundle, filter, data):
   file_filter = filter.format(bundle + '/{}')
   bundle_filter = filter
   bundle_contents = []
@@ -48,7 +48,7 @@ def generate_contents(dataset, bundle, filter, data):
     print(d['name'])
     if d['type'] != 'f':
       d['name'] = parse.parse(bundle_filter, d['name'])[0]
-      contents = generate_contents(dataset, bundle, d)
+      contents = generate_contents_each(dataset, bundle, d)
       bundle_contents.extend(contents)
   return bundle_contents
 
