@@ -59,7 +59,7 @@ def main():
 
   data = read_csv(args.filelist)
   filter = PATHS[args.dataset]['file'][0]
-  bundle_objects = generate_objects(args.dataset, args.bundle, filter, data)
+  bundle_objects = generate_objects_all(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.objects.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, bundle_objects, OBJECT_HEADERS)
   print("objects written to: {}".format(out_filename))

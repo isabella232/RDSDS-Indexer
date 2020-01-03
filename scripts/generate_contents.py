@@ -61,7 +61,7 @@ def main():
 
   data = read_csv(args.filelist)
   filter = PATHS[args.dataset]['file'][0]
-  bundle_contents = generate_contents(args.dataset, args.bundle, filter, data)
+  bundle_contents = generate_contents_all(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.contents.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, bundle_contents, CONTENTS_HEADERS)
   print("contents written to: {}".format(out_filename))

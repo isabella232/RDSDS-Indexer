@@ -61,7 +61,7 @@ def main():
 
   data = read_csv(args.filelist)
   filter = PATHS[args.dataset]['file'][0]
-  bundle_checksums = generate_checksums(args.dataset, args.bundle, filter, data)
+  bundle_checksums = generate_checksums_all(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.checksums.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, bundle_checksums, CHECKSUM_HEADERS)
   print("Checksums written to: {}".format(out_filename))
