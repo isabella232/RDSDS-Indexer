@@ -31,4 +31,4 @@ python "$SCRIPT_DIR/generate_checksums.py" ${DATASET} ${BUNDLE} ${FILE_LIST_CSV}
 python "$SCRIPT_DIR/generate_contents.py" ${DATASET} ${BUNDLE} ${FILE_LIST_CSV}
 python "$SCRIPT_DIR/generate_objects.py" ${DATASET} ${BUNDLE} ${FILE_LIST_CSV}
 # Cleanup Filelist
-python "$SCRIPT_DIR/cleanup-filelist.py" ${DATASET} ${BUNDLE} ${FILE_LIST_CSV}
+# python "$SCRIPT_DIR/cleanup-filelist.py" ${DATASET} ${BUNDLE} ${FILE_LIST_CSV}
