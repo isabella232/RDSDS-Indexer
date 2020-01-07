@@ -23,12 +23,8 @@ def write_csv(filename, DATA, header=None):
     writer.writeheader()
     writer.writerows(DATA)
 
-def generate_objects_each(dataset, bundle, data):
-  object_values = []
-  for d in data:
-    print (d)
-    print(d['id'][0:7])
-    print(d['name'][0:10])
+def generate_objects_each(dataset, bundle, d):
+    object_values = []
     print("Inserting {}..., {}...".format(d['id'][0:7], d['name'][0:10]))
     timestamp = dateutil.parser.parse(d['timestamp'])
     object_values.append({
@@ -39,7 +35,7 @@ def generate_objects_each(dataset, bundle, data):
       'updated_time': timestamp,
     })
       
-  return object_values
+    return object_values
   
 def generate_objects_all(dataset, bundle, filter, data):
   file_filter = filter.format(bundle + '/{}')
