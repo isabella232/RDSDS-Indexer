@@ -8,7 +8,7 @@ from dateutil import parser as dateutil_parser
 
 csv.field_size_limit(sys.maxsize)
 
-OBJECT_HEADERS = ['id','name','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
+OBJECT_HEADERS = ['id','name','type','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
 
 def read_csv(filename):
   """Read DATA from CSV in filename"""
@@ -32,6 +32,7 @@ def generate_objects_each(dataset, bundle, d):
       'id': d['id'],
       'name': d['name'],
       'size': d['size'],
+      'type': d['type'],
       'created_time': timestamp,
       'updated_time': timestamp,
       'bundle': d['bundle'],
@@ -46,10 +47,9 @@ def generate_objects_all(dataset, bundle, filter, data):
   bundle_objects = []
   for d in data:
     print(d['name'])
-    if d['type'] == 'f':
-      d['name'] = parse.parse(bundle_filter, d['name'])[0]
-      objects = generate_objects_each(dataset, bundle, d)
-      bundle_objects.extend(objects)
+    d['name'] = parse.parse(bundle_filter, d['name'])[0]
+    objects = generate_objects_each(dataset, bundle, d)
+    bundle_objects.extend(objects)
   return bundle_objects
 
 def main():
