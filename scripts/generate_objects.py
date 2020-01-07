@@ -46,7 +46,7 @@ def generate_objects_all(dataset, bundle, filter, data):
   bundle_objects = []
   for d in data:
     print(d['name'])
-    if d['type'] != 'f':
+    if d['type'] == 'f':
       d['name'] = parse.parse(bundle_filter, d['name'])[0]
       objects = generate_objects_each(dataset, bundle, d)
       bundle_objects.extend(objects)
