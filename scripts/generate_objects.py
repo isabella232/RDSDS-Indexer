@@ -4,7 +4,7 @@ import argparse
 import parse
 from settings import HASH_HEADERS, PATHS, HASH_TYPES
 from pprint import pprint
-import dateutil
+from dateutil import parser as dateutil_parser
 
 csv.field_size_limit(sys.maxsize)
 
@@ -27,7 +27,7 @@ def write_csv(filename, DATA, header=None):
 def generate_objects_each(dataset, bundle, d):
     object_values = []
     print("Inserting {}..., {}...".format(d['id'][0:7], d['name'][0:10]))
-    timestamp = dateutil.parser.parse(d['timestamp'])
+    timestamp = dateutil_parser.parse(d['timestamp'])
     object_values.append({
       'id': d['id'],
       'name': d['name'],
