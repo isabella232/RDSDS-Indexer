@@ -26,6 +26,7 @@ def write_csv(filename, DATA, header=None):
 def generate_objects_each(dataset, bundle, data):
   object_values = []
   for d in data:
+    print (d)
     print(d['id'][0:7])
     print(d['name'][0:10])
     print("Inserting {}..., {}...".format(d['id'][0:7], d['name'][0:10]))
