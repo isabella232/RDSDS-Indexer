@@ -38,7 +38,7 @@ def generate_contents_each(dataset, bundle, data):
           'name': split_oc[2]
         })
       
-  return contents
+  return contents_values
   
 def generate_contents_all(dataset, bundle, filter, data):
   file_filter = filter.format(bundle + '/{}')
