@@ -8,7 +8,7 @@ from dateutil import parser as dateutil_parser
 
 csv.field_size_limit(sys.maxsize)
 
-OBJECT_HEADERS = ['id','name','description','self_uri','size','created_time','updated_time','version','mime_type','aliases']
+OBJECT_HEADERS = ['id','name','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
 
 def read_csv(filename):
   """Read DATA from CSV in filename"""
@@ -34,6 +34,8 @@ def generate_objects_each(dataset, bundle, d):
       'size': d['size'],
       'created_time': timestamp,
       'updated_time': timestamp,
+      'bundle': d['bundle'],
+      'dataset': d['dataset']
     })
       
     return object_values
@@ -59,7 +61,6 @@ def main():
 
   data = read_csv(args.filelist)
   filter = PATHS[args.dataset]['file'][0]
-  print(data)
   bundle_objects = generate_objects_all(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.objects.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, bundle_objects, OBJECT_HEADERS)
