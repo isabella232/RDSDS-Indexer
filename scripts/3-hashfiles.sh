@@ -3,6 +3,7 @@ SCRIPT_PATH=${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
 JOB_ID="${LSB_JOBINDEX:-0}"
 PATH=$HOME/.linuxbrew/bin:$PATH:$HOME/bin
+alias crc32c="crc32"
 
 if [ "$JOB_ID" -gt "0" ]; then
   echo "$(hostname) JOB ID: $JOB_ID"
