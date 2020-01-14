@@ -50,6 +50,8 @@ HASH_HEADERS = ["type","id","name","dataset","bundle","size","timestamp",
                 "crc32c","md5","sha256","sha512","trunc512","blake2b",
                 "contents"]
 
+HASH_TYPES = ["crc32c","md5","sha256","sha512","trunc512","blake2b"]
+
 
 
 
