@@ -70,12 +70,6 @@ extract-expression-atlas:
 report:
   image: "alpine"
   stage: report
-  dependencies:
-    - extract-metabolights
-    - extract-pride
-    - extract-arrayexpress
-    - extract-eva
-    - extract-expression-atlas
   script:
     - wc -l data/*.csv | tee data/report.txt
   artifacts:
