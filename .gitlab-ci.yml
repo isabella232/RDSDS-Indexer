@@ -28,7 +28,7 @@ extract-pride:
     - data/pride.csv
     expire_in: 1 week
 
-extract-arrayexpress:
+.extract-arrayexpress:
   image: "python:3.5"
   stage: extract
   before_script:
