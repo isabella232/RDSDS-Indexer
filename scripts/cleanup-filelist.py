@@ -22,7 +22,8 @@ def write_csv(filename, DATA, header=None):
     writer.writerows(DATA)
 
 def cleanup_object_name(dataset, bundle, data):
-  filter = PATHS[dataset]['file'][0]
+  filter = PATHS[args.dataset]['file'][0]
+  #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
   file_filter = filter.format(bundle + '/{}')
   dir_filter = filter
   for d in data:

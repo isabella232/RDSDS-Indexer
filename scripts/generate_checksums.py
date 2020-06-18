@@ -61,6 +61,7 @@ def main():
 
   data = read_csv(args.filelist)
   filter = PATHS[args.dataset]['file'][0]
+  #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
   bundle_checksums = generate_checksums_all(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.checksums.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, bundle_checksums, CHECKSUM_HEADERS)

@@ -65,6 +65,8 @@ def main():
 
   data = read_csv(args.filelist)
   filter = PATHS[args.dataset]['file'][0]
+  #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
+  #print(filter)
   access_urls = generate_access_urls(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.urls.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, access_urls, URL_HEADERS)

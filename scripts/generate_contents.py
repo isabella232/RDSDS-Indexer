@@ -7,7 +7,7 @@ from pprint import pprint
 
 csv.field_size_limit(sys.maxsize)
 
-CONTENTS_HEADERS = ['object_id', 'id' ,'type', 'name']
+CONTENTS_HEADERS = ['object_id', 'id' , 'name', 'drs_uri', 'type']
 
 def read_csv(filename):
   """Read DATA from CSV in filename"""
@@ -34,8 +34,9 @@ def generate_contents_each(dataset, bundle, data):
         contents_values.append({
           'object_id': data['id'],
           'id': split_oc[1],
-          'type': split_oc[0],
-          'name': split_oc[2]
+          'name': split_oc[2],
+          'drs_uri' : '',
+          'type': split_oc[0]
         })
       
   return contents_values
@@ -61,6 +62,7 @@ def main():
 
   data = read_csv(args.filelist)
   filter = PATHS[args.dataset]['file'][0]
+  #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
   bundle_contents = generate_contents_all(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.contents.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, bundle_contents, CONTENTS_HEADERS)

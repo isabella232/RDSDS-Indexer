@@ -27,6 +27,7 @@ def write_csv(filename, DATA, header=None):
 def generate_objects_each(dataset, bundle, d):
     object_values = []
     print("Inserting {}..., {}...".format(d['id'][0:7], d['name'][0:10]))
+    #print(d['timestamp'])
     timestamp = dateutil_parser.parse(d['timestamp'])
     object_values.append({
       'id': d['id'],
@@ -35,8 +36,8 @@ def generate_objects_each(dataset, bundle, d):
       'type': d['type'],
       'created_time': timestamp,
       'updated_time': timestamp,
-      'bundle': d['bundle'],
-      'dataset': d['dataset']
+      #'bundle': d['bundle'],
+      #'dataset': d['dataset']
     })
       
     return object_values
@@ -61,6 +62,7 @@ def main():
 
   data = read_csv(args.filelist)
   filter = PATHS[args.dataset]['file'][0]
+  #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
   bundle_objects = generate_objects_all(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.objects.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, bundle_objects, OBJECT_HEADERS)
