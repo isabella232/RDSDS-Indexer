@@ -14,7 +14,7 @@ build:
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/k8s-job/image/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
   
 
-extract-metabolights:
+.extract-metabolights:
   image: "python:3.5"
   stage: extract
   before_script:
@@ -40,7 +40,7 @@ extract-pride:
     - data/pride.csv
     expire_in: 1 week
 
-extract-arrayexpress:
+.extract-arrayexpress:
   image: "python:3.5"
   stage: extract
   before_script:
@@ -53,7 +53,7 @@ extract-arrayexpress:
     - data/arrayexpress.csv
     expire_in: 1 week
 
-extract-eva:
+.extract-eva:
   image: "python:3.5"
   stage: extract
   before_script:
@@ -79,7 +79,7 @@ extract-eva:
     - data/expression-atlas.csv
     expire_in: 1 week
 
-report:
+.report:
   image: "alpine"
   stage: report
   script:
