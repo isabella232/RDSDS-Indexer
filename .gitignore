@@ -1,1 +1,5 @@
 data/
+/eva/
+/.gitlab-trigger-token
+/.project
+/.pydevproject

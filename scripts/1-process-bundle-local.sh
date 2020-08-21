@@ -37,7 +37,7 @@ do
   ${SCRIPT_DIR}/2-filelist-local.sh $dataset $id $local_path
   ${SCRIPT_DIR}/3-hashfiles-local.sh $dataset $id $local_path
   ${SCRIPT_DIR}/4-hashdirs-local.sh $dataset $id $local_path
-  ${SCRIPT_DIR}/6-find-errors-local.sh $dataset $id $local_path
+  ${SCRIPT_DIR}/5-find-errors-local.sh $dataset $id $local_path
   #${SCRIPT_DIR}/6-hashextra-local.sh $dataset $id $local_path
   ${SCRIPT_DIR}/7-post-process-local.sh $dataset $id $local_path
 done
