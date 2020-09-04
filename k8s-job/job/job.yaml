@@ -9,12 +9,12 @@ spec:
     metadata:
       name: job-wq-1
     spec:
+      imagePullSecrets:
+        - name: gitlab-registry-secret
       containers:
       - name: c
         image: dockerhub.ebi.ac.uk/soumyadip/dsds-indexer
         envFrom:
          - configMapRef:
              name: indexer-config
-        imagePullSecrets:
-        - name: gitlab-registry-secret
       restartPolicy: OnFailure
