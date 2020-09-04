@@ -14,5 +14,5 @@ spec:
         image: dockerhub.ebi.ac.uk/soumyadip/dsds-indexer
         envFrom:
          - configMapRef:
-           name: indexer-config
+             name: indexer-config
       restartPolicy: OnFailure
