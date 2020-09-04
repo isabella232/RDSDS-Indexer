@@ -17,7 +17,7 @@ build:
 deploy:
   stage: deploy
   image:
-    name: bitnami/kubectl
+    name: roffe/kubectl
     entrypoint: ["/bin/bash"]
   script:
     - kubectl -n ${KUBE_NAMESPACE} apply -f ${INDEXER_CONFIGMAP}
