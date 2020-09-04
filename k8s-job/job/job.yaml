@@ -15,4 +15,6 @@ spec:
         envFrom:
          - configMapRef:
              name: indexer-config
+      imagePullSecrets:
+      - name: gitlab-registry-secret
       restartPolicy: OnFailure
