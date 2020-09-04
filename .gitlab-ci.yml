@@ -18,7 +18,7 @@ deploy:
   stage: deploy
   image:
     name: roffe/kubectl
-    entrypoint: ["/bin/bash"]
+    command: ["bash"]
   script:
     - kubectl -n ${KUBE_NAMESPACE} apply -f ${INDEXER_CONFIGMAP}
     - kubectl -n ${KUBE_NAMESPACE} apply -f k8s-job/job/job.yaml
