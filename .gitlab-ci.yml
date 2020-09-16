@@ -20,7 +20,8 @@ deploy:
     name: roffe/kubectl
   script:
     - kubectl -n ${KUBE_NAMESPACE} apply -f ${INDEXER_CONFIGMAP} 
-    - kubectl -n ${KUBE_NAMESPACE} apply -f k8s-job/job/job.yaml 
+    - kubectl -n ${KUBE_NAMESPACE} delete -f k8s-job/job/job.yaml | kubectl -n ${KUBE_NAMESPACE} apply -f k8s-job/job/job.yaml
+
     
 .extract-metabolights:
   image: "python:3.5"
