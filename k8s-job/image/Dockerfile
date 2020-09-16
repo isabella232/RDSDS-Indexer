@@ -7,4 +7,6 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 COPY ./k8s-job/image/worker.py /worker.py
 
+RUN chmod +x /worker.py
+
 CMD  /usr/bin/amqp-consume --url=$BROKER_URL -q $QUEUE -c 1 /worker.py
