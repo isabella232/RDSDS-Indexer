@@ -1,0 +1,7 @@
+requests[security]
+python-dateutil==2.6.0
+pika==1.1.0
+json
+parse
+csv
+pytz
