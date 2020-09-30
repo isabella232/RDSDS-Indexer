@@ -24,11 +24,11 @@ def write_csv(filename, DATA, header=None):
 
 def push_rabbitmq_jobs(data, channel, rabbitmq_queue):
   for d in data:
-    print(d['dataset'])
+    payload = json.dumps(d)
     channel.basic_publish(
     exchange='',
     routing_key=rabbitmq_queue,
-    body=json.loads(d),
+    body=payload,
     properties=pika.BasicProperties(
         delivery_mode=2,  # make message persistent
     ))
@@ -43,7 +43,7 @@ def main():
 
   data = read_csv(csv_input)
 
-  connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbitmq_url))
+  connection = pika.BlockingConnection(pika.URLParameters(rabbitmq_url))
   channel = connection.channel()
   push_rabbitmq_jobs(data,channel,rabbitmq_queue)
   connection.close()
