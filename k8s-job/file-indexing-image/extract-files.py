@@ -26,7 +26,7 @@ def get_file_url(dataset,bundle):
 
 def get_files_from_omics_url(ftp_url):
     subprocess.call(["wget", "-r", "-q", "-P", "/data" ,ftp_url ])
-    print ('file downloaded')
+    print ('file downloaded: ' + ftp_url)
 
 def index_files(dataset, bundle , local_dir):
     subprocess.call(["./k8s-job/file-indexing-image/scripts/2-filelist-local.sh", dataset, bundle , local_dir ])
@@ -34,6 +34,7 @@ def index_files(dataset, bundle , local_dir):
     subprocess.call(["./k8s-job/file-indexing-image/scripts/4-hashdirs-local.sh", dataset, bundle , local_dir ])
    # subprocess.call(["./k8s-job/file-indexing-image/scripts/6-hashextra-local.sh", dataset, bundle , local_dir ])
     subprocess.call(["./k8s-job/file-indexing-image/scripts/7-post-process-local.sh", dataset, bundle , local_dir ])
+    print ('file indexed: ' + local_dir)
 
 def write_indexes_to_queue(dataset,bundle,channel):
     csv_path = (dataset+ '/' + bundle)
@@ -65,6 +66,8 @@ def push_rabbitmq_jobs(data, channel, rabbitmq_queue):
         ))
         print(" [x] Sent %r" % d)   
 
+def cleanup_downloaded_files(local_dir):
+    subprocess.call(["rm", "-r" , local_dir])
 
 def main():
     rabbitmq_url = os.environ.get('BROKER_URL')
@@ -83,12 +86,16 @@ def main():
                 dataset = omics_json.get("dataset")
                 bundle = omics_json.get("id")
                 ftp_url,local_dir = get_file_url (dataset,bundle)
-                get_files_from_omics_url(ftp_url)
+                print('ftp_url:' + ftp_url)
+                print('local_dir:' + local_dir)
+                #get_files_from_omics_url(ftp_url)
+
                 index_files(dataset, bundle, local_dir)
                 write_indexes_to_queue(dataset,bundle,channel)
                 #time.sleep(2.4)
                 print(' ### Message Processed: ' + bundle + '###' )
                 channel.basic_ack(method_frame.delivery_tag)
+                cleanup_downloaded_files(local_dir)
             except Exception as err:
                 print('Handling run-time error:', err)
                 channel.basic_nack(method_frame.delivery_tag)
