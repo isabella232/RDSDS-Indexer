@@ -6,4 +6,4 @@ COPY ./scripts /scripts
 
 RUN pip install -r /requirements.txt && chmod +x /worker.py
 
-CMD  ./scripts/
+CMD  ./scripts/extract-files.py

@@ -19,3 +19,6 @@ The process is mentioned below taking expression-atlas as an example. This will 
 	- access_methods.csv
 	- checksums.csv
 	- contents.csv
+
+
+This work is co-funded by the EOSC-hub project (Horizon 2020) under Grant number 777536.
