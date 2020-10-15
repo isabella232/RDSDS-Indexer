@@ -75,8 +75,6 @@ def main():
 
     connection = pika.BlockingConnection(pika.URLParameters(rabbitmq_url))
     channel = connection.channel()
-    # channel.basic_consume(queue=rabbitmq_queue, on_message_callback=pull_rabbitmq_job, auto_ack=True)
-    # channel.start_consuming()
     while True:
         method_frame, header_frame, body = channel.basic_get(
             queue=rabbitmq_queue)
@@ -88,11 +86,10 @@ def main():
                 ftp_url,local_dir = get_file_url (dataset,bundle)
                 print('ftp_url:' + ftp_url)
                 print('local_dir:' + local_dir)
-                #get_files_from_omics_url(ftp_url)
+                get_files_from_omics_url(ftp_url)
 
                 index_files(dataset, bundle, local_dir)
                 write_indexes_to_queue(dataset,bundle,channel)
-                #time.sleep(2.4)
                 print(' ### Message Processed: ' + bundle + '###' )
                 channel.basic_ack(method_frame.delivery_tag)
                 cleanup_downloaded_files(local_dir)
