@@ -45,7 +45,9 @@ def main():
 
   connection = pika.BlockingConnection(pika.URLParameters(rabbitmq_url))
   channel = connection.channel()
+
   push_rabbitmq_jobs(data,channel,rabbitmq_queue)
+  
   connection.close()
 
 if __name__ == "__main__":

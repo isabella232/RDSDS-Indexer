@@ -5,4 +5,5 @@ env.sh
 /.gitlab-trigger-token
 /.project
 /.pydevproject
-dsds-indexer/
+dsds-indexer*/
+

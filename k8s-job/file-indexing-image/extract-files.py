@@ -6,6 +6,8 @@ import pika
 import time
 import subprocess
 import requests
+import boto3
+from botocore.exceptions import ClientError
 
 csv.field_size_limit(sys.maxsize)
 
@@ -73,6 +75,7 @@ def main():
     rabbitmq_url = os.environ.get('BROKER_URL')
     rabbitmq_queue = os.environ.get('QUEUE')
 
+    # extracting each dataset and indexing
     connection = pika.BlockingConnection(pika.URLParameters(rabbitmq_url))
     channel = connection.channel()
     while True:
@@ -86,12 +89,14 @@ def main():
                 ftp_url,local_dir = get_file_url (dataset,bundle)
                 print('ftp_url:' + ftp_url)
                 print('local_dir:' + local_dir)
+                
                 get_files_from_omics_url(ftp_url)
-
                 index_files(dataset, bundle, local_dir)
                 write_indexes_to_queue(dataset,bundle,channel)
                 print(' ### Message Processed: ' + bundle + '###' )
+
                 channel.basic_ack(method_frame.delivery_tag)
+                
                 cleanup_downloaded_files(local_dir)
             except Exception as err:
                 print('Handling run-time error:', err)
