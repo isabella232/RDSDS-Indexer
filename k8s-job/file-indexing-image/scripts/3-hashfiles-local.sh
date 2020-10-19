@@ -36,13 +36,13 @@ while IFS=' ' read -r type size timestamp filename; do
   if [[ -r "$filename" ]]; then
     timestamp=$(python -c "import datetime; import pytz; tz = pytz.timezone('$TIMEZONE'); print(tz.localize(datetime.datetime.strptime('${timestamp%.*}', '%Y-%m-%d+%H:%M:%S')).isoformat())")
     echo "$filename, $size, $timestamp"
-    md5=$(md5sum -b "$filename" | awk '{print $1}')
+    md5=$(rhash --md5 "$filename" | awk '{print $1}')
     # etag=$(s3md5 $S3_DEFAULT_CHUNK_SIZE "$filename") #DEPRECATED
     # crc32=$(cksum "$filename" | awk '{print $1}')
-    crc32c=$(crc32c < "$filename")
+    crc32c=$(rhash --crc32c "$filename" | awk '{print $1}')
     # sha1=$(sha1sum "$filename" | awk '{print $1}')
-    sha256=$(sha256sum -b "$filename" | awk '{print $1}')
-    sha512=$(sha512sum -b "$filename" | awk '{print $1}')
+    sha256=$(rhash --sha256 "$filename" | awk '{print $1}')
+    sha512=$(rhash --sha512  "$filename" | awk '{print $1}')
     trunc512=${sha512:0:48} #TRUNC512 = First 48 chars (24 bytes) of SHA512
     blake2b=$(b2sum "$filename" | awk '{print $1}')
     id="$blake2b"
