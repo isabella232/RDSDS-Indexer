@@ -3,7 +3,6 @@ import os
 import csv
 import json
 import pika
-import time
 import boto3
 from botocore.exceptions import ClientError
 
