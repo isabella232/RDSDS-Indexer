@@ -3,10 +3,15 @@ import os
 import csv
 import json
 import pika
+import requests
 from pprint import pprint
 
-
+csv_download_path = '/data/input.csv'
 csv.field_size_limit(sys.maxsize)
+
+def get_remote_csv(url):
+  r = requests.get(url, allow_redirects=True)
+  open(csv_download_path, 'wb').write(r.content)
 
 def read_csv(filename):
   """Read DATA from CSV in filename"""
@@ -41,7 +46,8 @@ def main():
   rabbitmq_url = os.environ.get('BROKER_URL')
   rabbitmq_queue = os.environ.get('QUEUE')
 
-  data = read_csv(csv_input)
+  get_remote_csv(csv_input)
+  data = read_csv(csv_download_path)
 
   connection = pika.BlockingConnection(pika.URLParameters(rabbitmq_url))
   channel = connection.channel()
