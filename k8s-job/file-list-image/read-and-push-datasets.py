@@ -6,7 +6,7 @@ import pika
 import requests
 from pprint import pprint
 
-csv_download_path = '/data/input.csv'
+csv_download_path = '/tmp/input.csv'
 csv.field_size_limit(sys.maxsize)
 
 def get_remote_csv(url):
