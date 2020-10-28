@@ -4,7 +4,9 @@ import csv
 import json
 import pika
 import requests
+import boto3
 from pprint import pprint
+from botocore.exceptions import ClientError
 
 csv_download_path = '/tmp/input.csv'
 csv.field_size_limit(sys.maxsize)
@@ -39,14 +41,36 @@ def push_rabbitmq_jobs(data, channel, rabbitmq_queue):
     ))
     print(" [x] Sent %r" % d)
     
+def create_s3_client():
+    session = boto3.session.Session()
+    s3_client = session.client(
+      service_name='s3',
+      aws_access_key_id=os.environ.get('AWS_ACCESS_KEY'),
+      aws_secret_access_key=os.environ.get('AWS_SECRET_KEY'),
+      endpoint_url=os.environ.get('S3_ENDPOINT')
+    )
+    return s3_client
+
+def download_file(file_name, bucket, s3_client, object_name):
+  try:
+      s3_client.download_file(bucket, object_name, file_name)
+  except ClientError as e:
+      print(e)
+      raise e
 
 
 def main():
-  csv_input = os.environ.get('CSV_INPUT')
+  #csv_input = os.environ.get('CSV_INPUT')
   rabbitmq_url = os.environ.get('BROKER_URL')
   rabbitmq_queue = os.environ.get('QUEUE')
 
-  get_remote_csv(csv_input)
+  #get_remote_csv(csv_input)
+
+  s3_bucket = os.environ.get('S3_INPUT_BUCKET','rdsds-indexing')
+  s3_filepath = os.environ.get('S3_INPUT_FILEPATH')
+  s3_client = create_s3_client()
+  download_file(csv_download_path,s3_bucket,s3_client,s3_filepath)
+
   data = read_csv(csv_download_path)
 
   connection = pika.BlockingConnection(pika.URLParameters(rabbitmq_url))

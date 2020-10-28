@@ -55,6 +55,7 @@ def upload_file(file_name, bucket, s3_client, object_name=None):
 
     :param file_name: File to upload
     :param bucket: Bucket to upload to
+    :param s3_client: boto3 s3 client
     :param object_name: S3 object name. If not specified then file_name is used
     :return: True if file was uploaded, else False
     """
@@ -87,8 +88,8 @@ def main():
   connection.close()
   
   # Pushing to object store for ingestion
-  s3_bucket = os.environ.get('S3_BUCKET','rdsds-indexing')
-  s3_filepath = os.environ.get('S3_FILEPATH','indexed_items/')
+  s3_bucket = os.environ.get('S3_OUTPUT_BUCKET','rdsds-indexing')
+  s3_filepath = os.environ.get('S3_OUTPUT_FILEPATH','indexed_items/')
   s3_client = create_s3_client()
   upload_file(file_name='/data/object.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'object.csv')
   upload_file(file_name='/data/checksums.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'checksums.csv')
