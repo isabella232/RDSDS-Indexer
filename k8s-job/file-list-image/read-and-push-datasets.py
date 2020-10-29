@@ -54,6 +54,7 @@ def create_s3_client():
 def download_file(file_name, bucket, s3_client, object_name):
   try:
       s3_client.download_file(bucket, object_name, file_name)
+      print('File downloaded:' + object_name)
   except ClientError as e:
       print(e)
       raise e
@@ -72,6 +73,8 @@ def main():
   download_file(csv_download_path,s3_bucket,s3_client,s3_filepath)
 
   data = read_csv(csv_download_path)
+
+  print(data)
 
   connection = pika.BlockingConnection(pika.URLParameters(rabbitmq_url))
   channel = connection.channel()
