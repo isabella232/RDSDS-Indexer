@@ -4,9 +4,9 @@ import csv
 import json
 import pika
 import requests
-import boto3
 from pprint import pprint
-from botocore.exceptions import ClientError
+from minio import Minio
+from minio.error import ResponseError
 
 csv_download_path = '/tmp/input.csv'
 csv.field_size_limit(sys.maxsize)
@@ -41,21 +41,18 @@ def push_rabbitmq_jobs(data, channel, rabbitmq_queue):
     ))
     print(" [x] Sent %r" % d)
     
-def create_s3_client():
-    session = boto3.session.Session()
-    s3_client = session.client(
-      service_name='s3',
-      aws_access_key_id=os.environ.get('AWS_ACCESS_KEY'),
-      aws_secret_access_key=os.environ.get('AWS_SECRET_KEY'),
-      endpoint_url=os.environ.get('S3_ENDPOINT')
-    )
-    return s3_client
+def create_minio_client():
+    minioClient = Minio(os.environ.get('S3_ENDPOINT'),
+                  access_key=os.environ.get('AWS_ACCESS_KEY'),
+                  secret_key=os.environ.get('AWS_ACCESS_KEY'),
+                  secure=False)
+    return minioClient
 
-def download_file(file_name, bucket, s3_client, object_name):
+def download_file(file_name, bucket, minioClient, object_name):
   try:
-      s3_client.download_file(bucket, object_name, file_name)
+      minioClient.fget_object(bucket, object_name, file_name)
       print('File downloaded:' + object_name)
-  except ClientError as e:
+  except ResponseError as e:
       print(e)
       raise e
 
@@ -69,7 +66,7 @@ def main():
 
   s3_bucket = os.environ.get('S3_INPUT_BUCKET','rdsds-indexing')
   s3_filepath = os.environ.get('S3_INPUT_FILEPATH')
-  s3_client = create_s3_client()
+  s3_client = create_minio_client()
   download_file(csv_download_path,s3_bucket,s3_client,s3_filepath)
 
   data = read_csv(csv_download_path)
