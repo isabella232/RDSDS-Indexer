@@ -50,6 +50,9 @@ def create_minio_client():
 
 def download_file(file_name, bucket, minioClient, object_name):
   try:
+      buckets = minioClient.list_buckets()
+      for bucket in buckets:
+        print(bucket.name, bucket.creation_date)
       minioClient.fget_object(bucket, object_name, file_name)
       print('File downloaded:' + object_name)
   except ResponseError as e:
@@ -58,20 +61,20 @@ def download_file(file_name, bucket, minioClient, object_name):
 
 
 def main():
-  #csv_input = os.environ.get('CSV_INPUT')
+  csv_input = os.environ.get('CSV_INPUT')
   rabbitmq_url = os.environ.get('BROKER_URL')
   rabbitmq_queue = os.environ.get('QUEUE')
 
-  #get_remote_csv(csv_input)
+  get_remote_csv(csv_input)
 
-  s3_bucket = os.environ.get('S3_INPUT_BUCKET','rdsds-indexing')
-  s3_filepath = os.environ.get('S3_INPUT_FILEPATH')
-  s3_client = create_minio_client()
-  download_file(csv_download_path,s3_bucket,s3_client,s3_filepath)
+  #s3_bucket = os.environ.get('S3_INPUT_BUCKET','rdsds-indexing')
+  #s3_filepath = os.environ.get('S3_INPUT_FILEPATH')
+  #s3_client = create_minio_client()
+  #download_file(csv_download_path,s3_bucket,s3_client,s3_filepath)
 
   data = read_csv(csv_download_path)
 
-  print(data)
+  #print(data)
 
   connection = pika.BlockingConnection(pika.URLParameters(rabbitmq_url))
   channel = connection.channel()
