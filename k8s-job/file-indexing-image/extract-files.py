@@ -6,8 +6,6 @@ import pika
 import time
 import subprocess
 import requests
-import boto3
-from botocore.exceptions import ClientError
 
 csv.field_size_limit(sys.maxsize)
 
