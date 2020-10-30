@@ -26,7 +26,8 @@ def get_file_url(dataset,bundle):
 
 def get_files_from_omics_url(ftp_url,local_dir):
     subprocess.call(["mkdir", "-p" , local_dir])
-    subprocess.call(["lftp", "-c" ,"set ftp:proxy $HTTP_PROXY; open " + ftp_url + "; set xfer:clobber on;  lcd " + local_dir + " ; mget *"])
+    proxy = os.environ.get('HTTP_PROXY','')
+    subprocess.call(["lftp", "-c" ,"set ftp:proxy "+ proxy +"; open " + ftp_url + "; set xfer:clobber on;  lcd " + local_dir + " ; mget *"])
     print ('file downloaded: ' + ftp_url)
 
 def index_files(dataset, bundle , local_dir):
