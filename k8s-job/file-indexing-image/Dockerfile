@@ -18,4 +18,4 @@ COPY ./extract-files.py ./extract-files.py
 
 RUN pip install -r ./requirements.txt && chmod +x ./extract-files.py
 
-CMD  ./scripts/extract-files.py
+CMD ./extract-files.py
