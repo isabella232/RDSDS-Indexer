@@ -17,7 +17,7 @@ csv.field_size_limit(sys.maxsize)
 def write_or_append_csv(filename, DATA, headers):
   """Write DATA as CSV in filename"""
   print(DATA)
-  with open(filename, 'a') as csvfile:
+  with open(filename, mode='a', encoding='utf-8-sig') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=headers)
     if (csvfile.tell()==0):
       print("Writing headers")

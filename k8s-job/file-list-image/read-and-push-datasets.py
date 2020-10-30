@@ -17,7 +17,7 @@ def get_remote_csv(url):
 
 def read_csv(filename):
   """Read DATA from CSV in filename"""
-  with open(filename) as f:
+  with open(filename, mode='r', encoding='utf-8-sig') as f:
     reader = csv.DictReader(f)
     DATA = [r for r in reader]
     return DATA
