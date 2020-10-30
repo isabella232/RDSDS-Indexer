@@ -82,6 +82,7 @@ def main():
         if method_frame:
             try:
                 omics_json = json.loads(body)
+                print(omics_json)
                 dataset = omics_json.get("dataset")
                 bundle = omics_json.get("id")
                 ftp_url,local_dir = get_file_url (dataset,bundle)
