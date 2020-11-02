@@ -70,7 +70,7 @@ def main():
   #print(filter)
   ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
   ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
-  filter = '/data/' + ftp_host + ftp_path +  args.dataset + '/{}'
+  filter = '/data/' +  args.dataset + '/{}'
   print('filter:' + filter)
   access_urls = generate_access_urls(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.urls.csv".format(args.dataset, args.bundle)

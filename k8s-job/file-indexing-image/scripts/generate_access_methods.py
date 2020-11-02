@@ -68,7 +68,7 @@ def main():
   #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
   ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
   ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
-  filter = '/data/' + ftp_host + ftp_path +  args.dataset + '/{}'
+  filter = '/data/' +  args.dataset + '/{}'
   access_urls = generate_access_urls(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.access_methods.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, access_urls, URL_HEADERS)
