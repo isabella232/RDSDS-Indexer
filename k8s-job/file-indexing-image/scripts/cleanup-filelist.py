@@ -24,9 +24,9 @@ def write_csv(filename, DATA, header=None):
 def cleanup_object_name(dataset, bundle, data):
   #filter = PATHS[args.dataset]['file'][0]
   #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
-  ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
-  ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
-  filter = '/data/' +  args.dataset + '/{}'
+  #ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
+  #ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
+  filter = '/data/' +  dataset + '/{}'
   file_filter = filter.format(bundle + '/{}')
   dir_filter = filter
   for d in data:
