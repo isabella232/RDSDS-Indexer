@@ -26,7 +26,7 @@ def cleanup_object_name(dataset, bundle, data):
   #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
   ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
   ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
-  filter = '/data/' + ftp_host + ftp_path +  dataset + '/{}'
+  filter = '/data/' +  args.dataset + '/{}'
   file_filter = filter.format(bundle + '/{}')
   dir_filter = filter
   for d in data:

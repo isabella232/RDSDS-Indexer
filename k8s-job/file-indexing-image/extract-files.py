@@ -40,8 +40,8 @@ def index_files(dataset, bundle , local_dir):
 
 def write_indexes_to_queue(dataset,bundle,channel):
     csv_path = (dataset+ '/' + bundle)
-    cwd = subprocess.check_output(["echo", "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}"])
-    csv_path = (cwd + dataset+ '/' + bundle)
+    #cwd = subprocess.check_output(["echo", "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}"])
+    csv_path = ('/' + dataset+ '/' + bundle)
     subprocess.call(["ls", csv_path])
     object_data = read_csv(csv_path + '/'  + bundle + '.objects.csv')
     checksums_data = read_csv(csv_path + '/'  + bundle + '.checksums.csv')
