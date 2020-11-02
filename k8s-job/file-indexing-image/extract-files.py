@@ -31,11 +31,11 @@ def get_files_from_omics_url(ftp_url,local_dir):
     print ('file downloaded: ' + ftp_url)
 
 def index_files(dataset, bundle , local_dir):
-    subprocess.call(["./k8s-job/file-indexing-image/scripts/2-filelist-local.sh", dataset, bundle , local_dir ])
-    subprocess.call(["./k8s-job/file-indexing-image/scripts/3-hashfiles-local.sh", dataset, bundle , local_dir ])
-    subprocess.call(["./k8s-job/file-indexing-image/scripts/4-hashdirs-local.sh", dataset, bundle , local_dir ])
-   # subprocess.call(["./k8s-job/file-indexing-image/scripts/6-hashextra-local.sh", dataset, bundle , local_dir ])
-    subprocess.call(["./k8s-job/file-indexing-image/scripts/7-post-process-local.sh", dataset, bundle , local_dir ])
+    subprocess.call(["./scripts/2-filelist-local.sh", dataset, bundle , local_dir ])
+    subprocess.call(["./scripts/3-hashfiles-local.sh", dataset, bundle , local_dir ])
+    subprocess.call(["./scripts/4-hashdirs-local.sh", dataset, bundle , local_dir ])
+   # subprocess.call(["./scripts/6-hashextra-local.sh", dataset, bundle , local_dir ])
+    subprocess.call(["./scripts/7-post-process-local.sh", dataset, bundle , local_dir ])
     print ('file indexed: ' + local_dir)
 
 def write_indexes_to_queue(dataset,bundle,channel):
