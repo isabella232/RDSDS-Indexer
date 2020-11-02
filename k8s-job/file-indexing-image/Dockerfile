@@ -16,6 +16,6 @@ COPY ./requirements.txt ./requirements.txt
 COPY ./extract-files.py ./extract-files.py
 
 
-RUN pip install -r ./requirements.txt && chmod +x ./extract-files.py
+RUN pip install -r ./requirements.txt && chmod +x ./extract-files.py && chmod -R +x ./scripts
 
 CMD python ./extract-files.py
