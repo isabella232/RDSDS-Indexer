@@ -4,7 +4,6 @@ import argparse
 import os
 import parse
 from settings import HASH_HEADERS, PATHS, HASH_TYPES
-from pprint import pprint
 
 csv.field_size_limit(sys.maxsize)
 

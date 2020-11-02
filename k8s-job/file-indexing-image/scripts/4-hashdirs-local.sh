@@ -119,7 +119,7 @@ for dir in "${DIR_NAMES[@]}"; do
     # sha1=$(sort "$TMP_DIR/sha1" | tr -d ' '| tr -d '\n' | sha1sum | awk '{print $1}')
     sha256=$(sort "$TMP_DIR/sha256" | tr -d ' '| tr -d '\n' | rhash --sha256 | awk '{print $1}')
     sha512=$(sort "$TMP_DIR/sha512" | tr -d ' '| tr -d '\n' | rhash --sha512 | awk '{print $1}')
-    trunc512=$(sort "$TMP_DIR/sha512" | cut -c -48 | tr -d ' '| tr -d '\n' | sha512sum -b | awk '{print $1}' | cut -c -48)
+    trunc512=$(sort "$TMP_DIR/sha512" | cut -c -48 | tr -d ' '| tr -d '\n' | rhash --sha512 | awk '{print $1}' | cut -c -48)
     blake2b=$(sort "$TMP_DIR/blake2b" | tr -d ' '| tr -d '\n' | b2sum | awk '{print $1}')
     echo "d,$id,§$dir§,$DATASET,$BUNDLE,$size,$timestamp,$crc32c,$md5,$sha256,$sha512,$trunc512,$blake2b,\"$names\"" >> "$FILE_LIST.csv"
   else
