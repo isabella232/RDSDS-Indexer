@@ -1,13 +1,13 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: job-wq-1
+  name: job-file-listing-1
 spec:
-  completions: 8
-  parallelism: 2
+  completions: 1
+  parallelism: 1
   template:
     metadata:
-      name: job-wq-1
+      name: job-file-listing-1 
     spec:
       imagePullSecrets:
         - name: gitlab-registry-secret
@@ -18,3 +18,4 @@ spec:
          - configMapRef:
              name: indexer-config
       restartPolicy: OnFailure
+

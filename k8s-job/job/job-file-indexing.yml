@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-file-indexing-1
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      name: job-file-indexing-1 
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry-secret
+      containers:
+      - name: c
+        image: dockerhub.ebi.ac.uk/soumyadip/dsds-indexer/file-indexing
+        envFrom:
+         - configMapRef:
+             name: indexer-config
+        volumeMounts:
+        - name: data
+          mountPath: /data/
+      restartPolicy: OnFailure
+      volumes:
+      - name: data
+        emptyDir: {}
