@@ -67,6 +67,9 @@ def upload_file(file_name, bucket, s3_client, object_name=None):
 
     # Upload the file
     try:
+        print(file_name)
+        print(bucket)
+        print(object_name)
         s3_client.upload_file(file_name, bucket, object_name)
     except ClientError as e:
         print(e)
