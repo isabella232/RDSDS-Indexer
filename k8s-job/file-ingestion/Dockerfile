@@ -1,5 +1,5 @@
 # Specify BROKER_URL and QUEUE when running
-FROM python:3.6
+FROM python:3.9
 
 COPY ./read-and-ingest-datasets.py /read-and-ingest-datasets.py
 COPY ./requirements.txt /requirements.txt
