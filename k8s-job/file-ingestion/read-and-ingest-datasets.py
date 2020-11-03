@@ -36,6 +36,7 @@ def pull_queue(channel, rabbitmq_queue, file, headers):
         except Exception as err:
             print('Handling run-time error:', err)
             channel.basic_nack(method_frame.delivery_tag)
+            raise err
     else:
         print("Message not found")
         break
