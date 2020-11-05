@@ -9,6 +9,7 @@ from botocore.exceptions import ClientError
 CHECKSUM_HEADERS = ['object_id', 'type', 'checksum']
 CONTENTS_HEADERS = ['object_id', 'id' , 'name', 'drs_uri', 'type']
 OBJECT_HEADERS = ['id','name','type','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
+OBJECT_HEADERS_V2 = ['id','name','type','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
 URL_HEADERS = ['object_id', 'type', 'access_url', 'region', 'headers', 'access_id']
 
 csv.field_size_limit(sys.maxsize)
@@ -85,7 +86,11 @@ def main():
   # Pulling each queue and forming csv with records
   connection = pika.BlockingConnection(pika.URLParameters(rabbitmq_url))
   channel = connection.channel()
-  pull_queue(channel, object_queue , '/data/object.csv', OBJECT_HEADERS)
+  indexer_version = os.environ.get('INDEXER_VERSION')
+  if (indexer_version == 'v2'):
+    pull_queue(channel, object_queue , '/data/objects.csv', OBJECT_HEADERS_V2)
+  else:
+    pull_queue(channel, object_queue , '/data/objects.csv', OBJECT_HEADERS)
   pull_queue(channel, checksums_queue , '/data/checksums.csv', CHECKSUM_HEADERS)
   pull_queue(channel, contents_queue , '/data/contents.csv', CONTENTS_HEADERS)
   pull_queue(channel, access_methods_queue , '/data/access_methods.csv', URL_HEADERS)
@@ -95,7 +100,7 @@ def main():
   s3_bucket = os.environ.get('S3_OUTPUT_BUCKET','rdsds-indexing')
   s3_filepath = os.environ.get('S3_OUTPUT_FILEPATH','indexed_items/')
   s3_client = create_s3_client()
-  upload_file(file_name='/data/object.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'object.csv')
+  upload_file(file_name='/data/objects.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'object.csv')
   upload_file(file_name='/data/checksums.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'checksums.csv')
   upload_file(file_name='/data/contents.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'contents.csv')
   upload_file(file_name='/data/access_methods.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'access_methods.csv')

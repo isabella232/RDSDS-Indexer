@@ -21,8 +21,11 @@ def get_file_url(dataset,bundle):
     ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
     ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
     ftp_url = 'ftp://' + ftp_host + ftp_path +  dataset + '/' + bundle + '/*'
+    return ftp_url
+
+def get_local_dir(dataset,bundle):
     local_dir = '/data/' + dataset + '/' + bundle
-    return ftp_url, local_dir
+    return local_dir
 
 def get_files_from_omics_url(ftp_url,local_dir):
     subprocess.call(["mkdir", "-p" , local_dir])
@@ -89,7 +92,12 @@ def main():
                 print(omics_json)
                 dataset = omics_json.get("dataset")
                 bundle = omics_json.get("id")
-                ftp_url,local_dir = get_file_url (dataset,bundle)
+                local_dir = get_local_dir(dataset,bundle)
+                ftp_url=''
+                if (omics_json.get("dataset_url")):
+                  ftp_url = omics_json.get("dataset_url")
+                else:
+                  ftp_url = get_file_url(dataset,bundle)
                 print('ftp_url:' + ftp_url)
                 print('local_dir:' + local_dir)
                 
