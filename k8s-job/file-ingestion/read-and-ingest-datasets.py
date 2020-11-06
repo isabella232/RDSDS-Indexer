@@ -8,7 +8,7 @@ from botocore.exceptions import ClientError
 
 CHECKSUM_HEADERS = ['object_id', 'type', 'checksum']
 CONTENTS_HEADERS = ['object_id', 'id' , 'name', 'drs_uri', 'type']
-OBJECT_HEADERS = ['id','name','type','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
+OBJECT_HEADERS = ['id','name','description','self_uri','size','created_time','updated_time','version','mime_type','aliases']
 OBJECT_HEADERS_V2 = ['id','name','type','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
 URL_HEADERS = ['object_id', 'type', 'access_url', 'region', 'headers', 'access_id']
 
