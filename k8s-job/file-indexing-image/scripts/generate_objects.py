@@ -32,7 +32,7 @@ def generate_objects_each(dataset, bundle, d):
     timestamp = dateutil_parser.parse(d['timestamp'])
     indexer_version = os.environ.get('INDEXER_VERSION')
     if (indexer_version == 'v2'):
-        object_values.append({
+      object_values.append({
         'id': d['id'],
         'name': d['name'],
         'size': d['size'],
@@ -85,6 +85,7 @@ def main():
   if (indexer_version == 'v2'):
     write_csv(out_filename, bundle_objects, OBJECT_HEADERS_V2)
   else:
+    print ('No indexer version mentioned.')
     write_csv(out_filename, bundle_objects, OBJECT_HEADERS)
   print("objects written to: {}".format(out_filename))
 
