@@ -100,7 +100,7 @@ def main():
   s3_bucket = os.environ.get('S3_OUTPUT_BUCKET','rdsds-indexing')
   s3_filepath = os.environ.get('S3_OUTPUT_FILEPATH','indexed_items/')
   s3_client = create_s3_client()
-  upload_file(file_name='/data/objects.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'object.csv')
+  upload_file(file_name='/data/objects.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'objects.csv')
   upload_file(file_name='/data/checksums.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'checksums.csv')
   upload_file(file_name='/data/contents.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'contents.csv')
   upload_file(file_name='/data/access_methods.csv', bucket=s3_bucket, s3_client=s3_client,object_name=s3_filepath+'access_methods.csv')
