@@ -38,6 +38,28 @@ After the files are uploaded, the application is fed with the csv files through 
     	 -F variables[K8S_SECRET_no_proxy]='localhost,.cluster.local,.minio' \
          https://<gitlab url>/api/v4/projects/<project id>/trigger/pipeline
 
+All of the above steps are put into a script in `k8s-job/job/dsds-indexing.sh`. The environment variables needed are,
+
+ - KUBE_NAMESPACE: Namespace where jobs would run, need not be same as application.
+ - TRIGGER_TOKEN: Token to trigger applciation pipeline
+ - S3_HOST: object storage host (https://s3-host)
+ - S3_PATH: object storage path (s3://rdsds-indexing/indexed_items/)
+ - AWS_ACCESS_KEY: AWS access key
+ - AWS_SECRET_KEY: AWS secret key
+ - TRIGGER_URL: Trigger URL acquired from gitlab
+
+The Jobs are configured by ConfigMap present in `k8s-job/job/indexer-configmap.yml` which also needs to be configured.
+
+- BROKER_URL: MQ URL 
+- QUEUE: Queue where files would be listed for processing
+- CSV_INPUT: CSV Input URL for indexer
+- AWS_ACCESS_KEY/AWS_SECRET_KEY: object storage credentials with which output file would be uploaded
+- S3_ENDPOINT: object store URL where output file would be uploaded
+- S3_OUTPUT_BUCKET: Output file bucket
+- S3_OUTPUT_FILEPATH: Output file relative path
+- HTTP_PROXY/HTTPS_PROXY: Proxy to access public URL or to install package
+
+
 ## Indexing Locally
 This project attempts to index datasets internal to EMBL-EBI based on OmicsDI dataset entries.
 
