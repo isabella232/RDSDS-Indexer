@@ -8,8 +8,8 @@ from dateutil import parser as dateutil_parser
 
 csv.field_size_limit(sys.maxsize)
 
-OBJECT_HEADERS = ['id','name','type','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
-OBJECT_HEADERS_V2 = ['id','name','description','self_uri','size','created_time','updated_time','version','mime_type','aliases']
+OBJECT_HEADERS_V2 = ['id','name','type','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
+OBJECT_HEADERS = ['id','name','description','self_uri','size','created_time','updated_time','version','mime_type','aliases']
 
 def read_csv(filename):
   """Read DATA from CSV in filename"""
