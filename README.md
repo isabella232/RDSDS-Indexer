@@ -13,13 +13,16 @@
 ### Job Details:
 The indexing job is separated into three parts which are loosely coupled by the rabbitMQ server (will be mentioned as 'MQ' henceforth).  
 
-1. **File Listing**: The first job expects an CSV file (as an accessible URL) listing all the datasets to be indexed. The CSV is then pushed to MQ for further processing. The structure is as follows,
+1. **File Listing**: The first job expects an CSV file (as an accessible URL) listing all the datasets to be indexed. The CSV is then pushed to MQ for further processing. The `dataset_url` should be accessible ftp URL with wildcard for directory. The structure is as follows,
 
 |dataset|id|dataset_url|
 |--|--|--|
-| eva|PRJEB32692|ftp://ftp.ebi.ac.uk/pub/databases/eva/|
+| eva|PRJEB32692|ftp://ftp.ebi.ac.uk/pub/databases/eva/PRJEB32692/*|
+
 
 2. **File Indexing**: This job will take each dataset from the queue , index it, and put the indexed value in separate queues for objects/checksums/access_methods/contents in MQ.
+
+
 3.  **File Ingestion**: This job will consolidate each of the queues and make a CSV file for each queue such as objects.csv, contents.csv, checksums.csv and access_methods.csv. The files are then uploaded to object storage.
 
 After the files are uploaded, the application is fed with the csv files through gitlab pipeline trigger as mentioned below,
