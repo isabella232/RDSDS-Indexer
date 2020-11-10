@@ -9,8 +9,8 @@ spec:
     metadata:
       name: job-file-ingesting-1 
     spec:
-      imagePullSecrets:
-        - name: gitlab-registry-secret
+      #imagePullSecrets:
+      #  - name: registry-secret
       containers:
       - name: c
         image: ebitsi/dsds-indexer-file-ingesting
