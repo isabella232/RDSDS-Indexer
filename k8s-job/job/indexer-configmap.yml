@@ -1,17 +1,17 @@
 apiVersion: v1
 data:
-  BROKER_URL: amqp://rdsds-user:DOND!gouf0piw!jauk@rabbit-mq-rabbitmq-ha.rabbitmq:5672
-  QUEUE: indexer-job-1
-  CSV_INPUT: http://minio-1602831960.minio:9000/rdsds-indexing/to_be_indexed/eva-slim.csv
+  BROKER_URL: amqp://<mq-user>:<ma-password>@<mq-server>:<mq-port>
+  QUEUE: <mq-queue-for-file-listinf>
+  CSV_INPUT: <accessible csv http(s) URL>
   AWS_ACCESS_KEY: aaaaaaa 
   AWS_SECRET_KEY: adasdasdasdasdasd
-  S3_ENDPOINT: http://minio-1602831960.minio:9000
-  S3_OUTPUT_BUCKET: rdsds-indexing
-  S3_OUTPUT_FILEPATH: indexed_items/
-  HTTP_PROXY: http://hx-wwwcache.ebi.ac.uk:3128
-  HTTPS_PROXY: http://hx-wwwcache.ebi.ac.uk:3128
-  http_proxy: http://hx-wwwcache.ebi.ac.uk:3128
-  https_proxy: http://hx-wwwcache.ebi.ac.uk:3128
+  S3_ENDPOINT: <s3 endpoint with http(s)>
+  S3_OUTPUT_BUCKET: <s3 bucket>
+  S3_OUTPUT_FILEPATH: <s3 path>
+  HTTP_PROXY: <proxy>
+  HTTPS_PROXY: <proxy>
+  http_proxy: <proxy>
+  https_proxy: <proxy>
   no_proxy: localhost,.cluster.local,.minio
   NO_PROXY: localhost,.cluster.local,.minio
 kind: ConfigMap
