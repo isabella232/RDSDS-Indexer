@@ -1,8 +1,50 @@
 stages:
+  - build
+  - deploy
   - extract
   - report
 
-extract-metabolights:
+file-list-build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR/k8s-job/file-list-image --destination $CI_REGISTRY_IMAGE/file-list:$CI_COMMIT_TAG
+
+file-indexer-build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR/k8s-job/file-indexing-image --destination $CI_REGISTRY_IMAGE/file-indexing:$CI_COMMIT_TAG
+
+file-ingester-build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR/k8s-job/file-ingestion --destination $CI_REGISTRY_IMAGE/file-ingestion:$CI_COMMIT_TAG
+
+.deploy:
+  stage: deploy
+  image:
+    name: roffe/kubectl
+  script:
+    - kubectl -n ${KUBE_NAMESPACE} apply -f ${INDEXER_CONFIGMAP} 
+    - kubectl -n ${KUBE_NAMESPACE} delete -f k8s-job/job/job.yaml | kubectl -n ${KUBE_NAMESPACE} apply -f k8s-job/job/job.yaml
+    - kubectl -n ${KUBE_NAMESPACE} describe job/job-wq-1
+
+    
+.extract-metabolights:
   image: "python:3.5"
   stage: extract
   before_script:
@@ -15,7 +57,7 @@ extract-metabolights:
     - data/metabolights.csv
     expire_in: 1 week
 
-extract-pride:
+.extract-pride:
   image: "python:3.5"
   stage: extract
   before_script:
@@ -28,7 +70,7 @@ extract-pride:
     - data/pride.csv
     expire_in: 1 week
 
-extract-arrayexpress:
+.extract-arrayexpress:
   image: "python:3.5"
   stage: extract
   before_script:
@@ -41,7 +83,7 @@ extract-arrayexpress:
     - data/arrayexpress.csv
     expire_in: 1 week
 
-extract-eva:
+.extract-eva:
   image: "python:3.5"
   stage: extract
   before_script:
@@ -54,7 +96,7 @@ extract-eva:
     - data/eva.csv
     expire_in: 1 week
 
-extract-expression-atlas:
+.extract-expression-atlas:
   image: "python:3.5"
   stage: extract
   before_script:
@@ -67,15 +109,9 @@ extract-expression-atlas:
     - data/expression-atlas.csv
     expire_in: 1 week
 
-report:
+.report:
   image: "alpine"
   stage: report
-  dependencies:
-    - extract-metabolights
-    - extract-pride
-    - extract-arrayexpress
-    - extract-eva
-    - extract-expression-atlas
   script:
     - wc -l data/*.csv | tee data/report.txt
   artifacts:

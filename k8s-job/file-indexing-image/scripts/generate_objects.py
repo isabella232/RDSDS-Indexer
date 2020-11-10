@@ -2,13 +2,14 @@ import sys
 import csv
 import argparse
 import parse
+import os
 from settings import HASH_HEADERS, PATHS, HASH_TYPES
-from pprint import pprint
 from dateutil import parser as dateutil_parser
 
 csv.field_size_limit(sys.maxsize)
 
-OBJECT_HEADERS = ['id','name','type','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
+OBJECT_HEADERS_V2 = ['id','name','type','description','self_uri','size','created_time','updated_time','version','mime_type','aliases','bundle','dataset']
+OBJECT_HEADERS = ['id','name','description','self_uri','size','created_time','updated_time','version','mime_type','aliases']
 
 def read_csv(filename):
   """Read DATA from CSV in filename"""
@@ -29,21 +30,33 @@ def generate_objects_each(dataset, bundle, d):
     print("Inserting {}..., {}...".format(d['id'][0:7], d['name'][0:10]))
     #print(d['timestamp'])
     timestamp = dateutil_parser.parse(d['timestamp'])
-    object_values.append({
-      'id': d['id'],
-      'name': d['name'],
-      'size': d['size'],
-      'type': d['type'],
-      'created_time': timestamp,
-      'updated_time': timestamp,
-      #'bundle': d['bundle'],
-      #'dataset': d['dataset']
-    })
+    indexer_version = os.environ.get('INDEXER_VERSION')
+    if (indexer_version == 'v2'):
+      object_values.append({
+        'id': d['id'],
+        'name': d['name'],
+        'size': d['size'],
+        'type': d['type'],
+        'created_time': timestamp,
+        'updated_time': timestamp,
+        'bundle': d['bundle'],
+        'dataset': d['dataset']
+      })          
+    else:
+      object_values.append({
+        'id': d['id'],
+        'name': d['name'],
+        'size': d['size'],
+        #'type': d['type'],
+        'created_time': timestamp,
+        'updated_time': timestamp,
+        #'bundle': d['bundle'],
+        #'dataset': d['dataset']
+      })
       
     return object_values
   
 def generate_objects_all(dataset, bundle, filter, data):
-  file_filter = filter.format(bundle + '/{}')
   bundle_filter = filter
   bundle_objects = []
   for d in data:
@@ -61,11 +74,19 @@ def main():
   args = parser.parse_args()
 
   data = read_csv(args.filelist)
-  filter = PATHS[args.dataset]['file'][0]
+  #filter = PATHS[args.dataset]['file'][0]
   #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
+  #ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
+  #ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
+  filter = '/data/' +  args.dataset + '/{}'
   bundle_objects = generate_objects_all(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.objects.csv".format(args.dataset, args.bundle)
-  write_csv(out_filename, bundle_objects, OBJECT_HEADERS)
+  indexer_version = os.environ.get('INDEXER_VERSION')
+  if (indexer_version == 'v2'):
+    write_csv(out_filename, bundle_objects, OBJECT_HEADERS_V2)
+  else:
+    print ('No indexer version mentioned.')
+    write_csv(out_filename, bundle_objects, OBJECT_HEADERS)
   print("objects written to: {}".format(out_filename))
 
 if __name__ == "__main__":

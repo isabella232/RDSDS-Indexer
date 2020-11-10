@@ -59,7 +59,7 @@ if [ "$NUM_JOBS" -gt "$MAX_JOB_ARRAY_SIZE" ]; then
 
     bsub -g /$USER/$DATASET_NAME-dirs -sp 100 -w 'done(hashfiles-${DATASET_NAME}-${i}[*])' -N -J hashdirs-${DATASET_NAME}[$START-$END] ${SCRIPT_DIR}/4-hashdirs.sh ${DATASET_CSV}.jobs
 
-    bsub -g /$USER/$DATASET_NAME-errors -sp 100 -w 'done(hashdirs-${DATASET_NAME}-${i}[*])' -N -J find-errors ${SCRIPT_DIR}/6-find-errors.sh ${DATASET_NAME}
+    bsub -g /$USER/$DATASET_NAME-errors -sp 100 -w 'done(hashdirs-${DATASET_NAME}-${i}[*])' -N -J find-errors ${SCRIPT_DIR}/5-find-errors.sh ${DATASET_NAME}
 
     bsub -g /$USER/$DATASET_NAME-extra -sp 100 -w 'done(hashdirs-${DATASET_NAME}-${i}[*])' -N -J hashextra-${DATASET_NAME}[$START-$END] ${SCRIPT_DIR}/6-hashextra.sh ${DATASET_CSV}.jobs
 
@@ -70,7 +70,7 @@ else
   bsub -g "/$USER/$DATASET_NAME-list" -sp 100 -J "filelist-${DATASET_NAME}[1-${NUM_JOBS}]" "${SCRIPT_DIR}/2-filelist.sh" "${DATASET_CSV}.jobs"
   bsub -g "/$USER/$DATASET_NAME-files" -sp 100 -w "done(filelist-${DATASET_NAME}[*])" -J "hashfiles-${DATASET_NAME}[1-${NUM_JOBS}]" "${SCRIPT_DIR}/3-hashfiles.sh" "${DATASET_CSV}.jobs"
   bsub -g "/$USER/$DATASET_NAME-dirs" -sp 100 -w "done(hashfiles-${DATASET_NAME}[*])" -J "hashdirs-${DATASET_NAME}[1-${NUM_JOBS}]" "${SCRIPT_DIR}/4-hashdirs.sh" "${DATASET_CSV}.jobs"
-  bsub -g "/$USER/$DATASET_NAME-errors" -sp 100 -w "done(hashdirs-${DATASET_NAME})" -J find-errors "${SCRIPT_DIR}/6-find-errors.sh" "${DATASET_NAME}"
+  bsub -g "/$USER/$DATASET_NAME-errors" -sp 100 -w "done(hashdirs-${DATASET_NAME})" -J find-errors "${SCRIPT_DIR}/5-find-errors.sh" "${DATASET_NAME}"
   bsub -g "/$USER/$DATASET_NAME-extra" -sp 100 -w "done(hashdirs-${DATASET_NAME})" -J "hashextra-${DATASET_NAME}[1-$NUM_JOBS]" "${SCRIPT_DIR}/6-hashextra.sh" "${DATASET_CSV}.jobs"
   bsub -g "/$USER/$DATASET_NAME-extra" -sp 100 -w "done(hashdirs-${DATASET_NAME})" -J "hashpost-${DATASET_NAME}[1-$NUM_JOBS]" "${SCRIPT_DIR}/7-post-process.sh" "${DATASET_CSV}.jobs"
 fi

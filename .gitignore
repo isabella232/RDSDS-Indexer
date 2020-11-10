@@ -1,1 +1,9 @@
 data/
+eva/
+env.sh
+*.pyc
+/.gitlab-trigger-token
+/.project
+/.pydevproject
+dsds-indexer*/
+

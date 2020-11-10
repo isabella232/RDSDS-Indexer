@@ -1,9 +1,9 @@
 import sys
 import csv
 import argparse
+import os
 import parse
 from settings import HASH_HEADERS, PATHS, HASH_TYPES
-from pprint import pprint
 
 csv.field_size_limit(sys.maxsize)
 
@@ -60,8 +60,11 @@ def main():
   args = parser.parse_args()
 
   data = read_csv(args.filelist)
-  filter = PATHS[args.dataset]['file'][0]
+  #filter = PATHS[args.dataset]['file'][0]
   #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
+  ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
+  ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
+  filter = '/data/' +  args.dataset + '/{}'
   bundle_checksums = generate_checksums_all(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.checksums.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, bundle_checksums, CHECKSUM_HEADERS)

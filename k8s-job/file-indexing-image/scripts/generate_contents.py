@@ -1,9 +1,9 @@
 import sys
 import csv
 import argparse
+import os
 import parse
 from settings import HASH_HEADERS, PATHS, HASH_TYPES
-from pprint import pprint
 
 csv.field_size_limit(sys.maxsize)
 
@@ -42,7 +42,6 @@ def generate_contents_each(dataset, bundle, data):
   return contents_values
   
 def generate_contents_all(dataset, bundle, filter, data):
-  file_filter = filter.format(bundle + '/{}')
   bundle_filter = filter
   bundle_contents = []
   for d in data:
@@ -61,8 +60,9 @@ def main():
   args = parser.parse_args()
 
   data = read_csv(args.filelist)
-  filter = PATHS[args.dataset]['file'][0]
+  #filter = PATHS[args.dataset]['file'][0]
   #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
+  filter = '/data/' + args.dataset + '/{}'
   bundle_contents = generate_contents_all(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.contents.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, bundle_contents, CONTENTS_HEADERS)

@@ -1,9 +1,9 @@
 import sys
 import csv
+import os
 import argparse
 import parse
 from settings import HASH_HEADERS, PATHS, ACCESS_URLS
-from pprint import pprint
 
 csv.field_size_limit(sys.maxsize)
 
@@ -64,11 +64,13 @@ def main():
   args = parser.parse_args()
 
   data = read_csv(args.filelist)
-  filter = PATHS[args.dataset]['file'][0]
+  #filter = PATHS[args.dataset]['file'][0]
   #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
-  #print(filter)
+  ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
+  ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
+  filter = '/data/' +  args.dataset + '/{}'
   access_urls = generate_access_urls(args.dataset, args.bundle, filter, data)
-  out_filename = "{0}/{1}/{1}.urls.csv".format(args.dataset, args.bundle)
+  out_filename = "{0}/{1}/{1}.access_methods.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, access_urls, URL_HEADERS)
   print("Access URLs written to: {}".format(out_filename))
 

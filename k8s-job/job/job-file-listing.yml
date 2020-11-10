@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-file-listing-1
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      name: job-file-listing-1 
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry-secret
+      containers:
+      - name: c
+        image: dockerhub.ebi.ac.uk/soumyadip/dsds-indexer/file-list
+        envFrom:
+         - configMapRef:
+             name: indexer-config
+      restartPolicy: OnFailure
+

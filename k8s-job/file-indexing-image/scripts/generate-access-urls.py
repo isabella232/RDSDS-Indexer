@@ -2,6 +2,7 @@ import sys
 import csv
 import argparse
 import parse
+import os
 from settings import HASH_HEADERS, PATHS, ACCESS_URLS
 from pprint import pprint
 
@@ -45,7 +46,7 @@ def generate_access_urls(dataset, bundle, filter, data):
   bundle_filter = filter
   access_urls = []
   for d in data:
-    print(d['name'])
+    print(d)
     if d['type'] == 'f':
       d['name'] = parse.parse(file_filter, d['name'])[0]
       urls = generate_url_paths(dataset, bundle, d)
@@ -67,6 +68,10 @@ def main():
   filter = PATHS[args.dataset]['file'][0]
   #filter = '/mnt/c/Users/soumyadip/git/dsds-indexer/eva/{}'
   #print(filter)
+  ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
+  ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
+  filter = '/data/' +  args.dataset + '/{}'
+  print('filter:' + filter)
   access_urls = generate_access_urls(args.dataset, args.bundle, filter, data)
   out_filename = "{0}/{1}/{1}.urls.csv".format(args.dataset, args.bundle)
   write_csv(out_filename, access_urls, URL_HEADERS)
