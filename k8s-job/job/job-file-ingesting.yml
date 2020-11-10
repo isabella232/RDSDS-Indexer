@@ -13,7 +13,7 @@ spec:
         - name: gitlab-registry-secret
       containers:
       - name: c
-        image: dockerhub.ebi.ac.uk/soumyadip/dsds-indexer/file-ingestion
+        image: dockerhub.ebi.ac.uk/tsi/rdsds/dsds-indexer/file-ingestion
         envFrom:
          - configMapRef:
              name: indexer-config
