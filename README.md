@@ -1,9 +1,14 @@
 
 # Reference DataSet Distribution Service Indexer (RDSDS-Indexer)
 
+This repository hosts indexing for GA4GH complaint DRS service [RDSDS](https://github.com/EMBL-EBI-TSI/RDSDS-Server). This project attempts to index datasets internal to EMBL-EBI based on OmicsDI dataset entries, but can be reused to support other databases also. 
+
+
 ## Indexing on Kubernetes
 
-  The earlier implementation of RDSDS indexing was written to be executed in LSF cluster. As the intention is to make it usable to larger users, it is now made Kubernetes-native to be run as Kubernetes Job.
+  The earlier implementation of RDSDS indexing was written to be executed in LSF cluster. As the intention is to make it usable to larger users, it is now made Kubernetes-native to be run as Kubernetes Job. The flow diagram is as below,
+
+  ![Flow-Diagram](./Flow-diagram.png)
 
 ### Pre-requisites:
 1. RabbitMQ Server (^1.30.0) 
@@ -64,7 +69,6 @@ The Jobs are configured by ConfigMap present in `k8s-job/job/indexer-configmap.y
 
 
 ## Indexing Locally
-This project attempts to index datasets internal to EMBL-EBI based on OmicsDI dataset entries.
 
 The process is mentioned below taking expression-atlas as an example. This will repeat for each of dataset groups,
 
