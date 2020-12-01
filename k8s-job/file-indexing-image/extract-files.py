@@ -28,25 +28,25 @@ def get_local_dir(dataset,bundle):
     return local_dir
 
 def get_files_from_omics_url(ftp_url,local_dir):
-    subprocess.call(["mkdir", "-p" , local_dir])
+    subprocess.run(["mkdir", "-p" , local_dir])
     proxy = os.environ.get('HTTP_PROXY','')
-    subprocess.call(["lftp", "-c" ,"set ftp:proxy "+ proxy +"; open " + ftp_url + "; set xfer:clobber on;  lcd " + local_dir + " ; mget *"])
+    subprocess.run(["lftp", "-c" ,"set ftp:proxy "+ proxy +"; open " + ftp_url + "; set xfer:clobber on;  lcd " + local_dir + " ; mget *"], check=True)
     print ('file downloaded: ' + ftp_url)
 
 
 def index_files(dataset, bundle , local_dir):
-    subprocess.call(["./scripts/2-filelist-local.sh", dataset, bundle , local_dir ])
-    subprocess.call(["./scripts/3-hashfiles-local.sh", dataset, bundle , local_dir ])
-    subprocess.call(["./scripts/4-hashdirs-local.sh", dataset, bundle , local_dir ])
-   # subprocess.call(["./scripts/6-hashextra-local.sh", dataset, bundle , local_dir ])
-    subprocess.call(["./scripts/7-post-process-local.sh", dataset, bundle , local_dir ])
+    subprocess.run(["./scripts/2-filelist-local.sh", dataset, bundle , local_dir ], check=True)
+    subprocess.run(["./scripts/3-hashfiles-local.sh", dataset, bundle , local_dir ], check=True)
+    subprocess.run(["./scripts/4-hashdirs-local.sh", dataset, bundle , local_dir ], check=True)
+   # subprocess.run(["./scripts/6-hashextra-local.sh", dataset, bundle , local_dir ])
+    subprocess.run(["./scripts/7-post-process-local.sh", dataset, bundle , local_dir ], check=True)
     print ('file indexed: ' + local_dir)
 
 def write_indexes_to_queue(dataset,bundle,channel):
     csv_path = (dataset+ '/' + bundle)
     #cwd = subprocess.check_output(["echo", "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}"])
     csv_path = ('/' + dataset+ '/' + bundle)
-    subprocess.call(["ls", csv_path])
+    subprocess.run(["ls", csv_path])
     object_data = read_csv(csv_path + '/'  + bundle + '.objects.csv')
     checksums_data = read_csv(csv_path + '/'  + bundle + '.checksums.csv')
     contents_data = read_csv(csv_path + '/'  + bundle + '.contents.csv')
@@ -75,7 +75,7 @@ def push_rabbitmq_jobs(data, channel, rabbitmq_queue):
         print(" [x] Sent %r" % d)   
 
 def cleanup_downloaded_files(local_dir):
-    subprocess.call(["rm", "-r" , local_dir])
+    subprocess.run(["rm", "-r" , local_dir])
 
 def main():
     rabbitmq_url = os.environ.get('BROKER_URL')
