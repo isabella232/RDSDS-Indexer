@@ -20,7 +20,7 @@ def read_csv(filename):
 def get_file_url(dataset,bundle):
     ftp_host = os.environ.get('FTP_URL', 'ftp.ebi.ac.uk')
     ftp_path = os.environ.get('FTP_PATH', '/pub/databases/')
-    ftp_url = 'ftp://' + ftp_host + ftp_path +  dataset + '/' + bundle + '/*'
+    ftp_url = 'ftp://' + ftp_host + ftp_path +  dataset + '/' + bundle + '/'
     return ftp_url
 
 def get_local_dir(dataset,bundle):
@@ -32,6 +32,7 @@ def get_files_from_omics_url(ftp_url,local_dir):
     proxy = os.environ.get('HTTP_PROXY','')
     subprocess.call(["lftp", "-c" ,"set ftp:proxy "+ proxy +"; open " + ftp_url + "; set xfer:clobber on;  lcd " + local_dir + " ; mget *"])
     print ('file downloaded: ' + ftp_url)
+
 
 def index_files(dataset, bundle , local_dir):
     subprocess.call(["./scripts/2-filelist-local.sh", dataset, bundle , local_dir ])
